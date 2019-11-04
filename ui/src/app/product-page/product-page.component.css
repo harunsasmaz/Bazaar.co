@@ -1,0 +1,38 @@
+.first-col {
+    width: 40%;
+    padding: 5px;
+    float: left;
+    margin-left: 10px;
+}
+
+.second-col {
+    width: 40%;
+    padding: 5px;
+    float: left;
+    margin-left: 10px;
+}
+
+.star {
+    position: relative;
+    display: inline-block;
+    font-size: 2rem;
+    color: #acacac;
+}
+
+.averageStar {
+    position: relative;
+    display: inline-block;
+    font-size: 2rem;
+    color: #f5f1f3;
+}
+
+.filled {
+    color: goldenrod;
+}
+
+.half {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    color: goldenrod;
+}

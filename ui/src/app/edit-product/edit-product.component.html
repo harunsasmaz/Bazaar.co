@@ -1,0 +1,101 @@
+<div *ngIf="product !== undefined">
+    <div class="row" style="width: 100%;">
+        <div class="col-xs-6 col-md-6" style="margin-top: 20px">
+            <div class="image-upload" style="text-align: center; vertical-align: center;">
+                <input id="file-input" type="file" accept="image/*" (change)="onImageChange($event)"
+                       (ngModelChange)="updateForm()" visibility=hidden>
+                <label for="file-input">
+                    <img [src]="image" width="400px" style="vertical-align: bottom; padding: 10px;">
+                    <div *ngIf="!photoLoading"><i style="width: 100px; margin-top: 5px;">* Maximum 20MB</i></div>
+                    <div><img *ngIf="photoLoading" class="pl-3" src="../../assets/loading.gif"/></div>
+                    <div class="alert alert-danger" *ngIf="imageSizeError"
+                         style="vertical-align: bottom; margin-top: 10px;">{{imageSizeError}}</div>
+                    <div style="margin: 10px" *ngIf="success" class="alert alert-success">{{success}}</div>
+                </label>
+            </div>
+        </div>
+        <div class="col-xs-5 col-md-5" style="margin-top: 20px; margin-left: 20px">
+            <form [formGroup]="productForm" style="vertical-align: center; margin-bottom: 20px">
+                <div class="form-group">
+                    <label>Category </label>
+                    <select style="width: max-content" class="form-control" formControlName="category"
+                            (ngModelChange)="updateForm()">
+                        <option [value]="value[0]">{{name[0]}}</option>
+                        <option [value]="value[1]">{{name[1]}}</option>
+                        <option [value]="value[2]">{{name[2]}}</option>
+                        <option [value]="value[3]">{{name[3]}}</option>
+                        <option [value]="value[4]">{{name[4]}}</option>
+                    </select>
+                </div>
+                <div class="form-group" style="width: 80%">
+                    <label>Name</label>
+                    <input type="text" formControlName="name" placeholder="Renault Clio" class="form-control"
+                           (ngModelChange)="updateForm()" [ngClass]="{ 'is-invalid': submitted && form.name.errors }"/>
+                    <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                        <div *ngIf="form.name.errors">* Name is required</div>
+                    </div>
+                </div>
+                <div class="form-group" style="width: 80%;">
+                    <label>Price</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-addon">€</span>
+                        </div>
+                        <input type="number" min="1" oninput="validity.valid||(value='');" formControlName="price"
+                               (ngModelChange)="updateForm()" placeholder="10000" class="form-control"
+                               [ngClass]="{ 'is-invalid': submitted && form.price.errors }"/>
+                        <div *ngIf="submitted && form.price.errors" class="invalid-feedback">
+                            <div *ngIf="form.price.errors">* Price is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="width: 80%">
+                    <label>Description</label>
+                    <textarea rows="8" style="resize: none; border-radius: 15px" formControlName="description"
+                              placeholder="White car with no problem." (ngModelChange)="updateForm()"
+                              class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && form.description.errors }"></textarea>
+                    <div *ngIf="submitted && form.description.errors" class="invalid-feedback">
+                        <div *ngIf="form.description.errors.required">* Description is required</div>
+                    </div>
+                </div>
+                <div class="form-group" style="width: 80%">
+                    <i>Is it available? </i> &nbsp;
+                    <input type="checkbox" name="stock" value="true" formControlName="stock"
+                           (ngModelChange)="updateForm()">
+                </div>
+                <div class="form-group">
+                    <button [disabled]="submitDisableStatus() || ( !isChanged && !imageChanged )" (click)="onSubmit()"
+                            class="btn btn-primary">Save
+                    </button>
+                    <img *ngIf="loading" class="pl-3" src="../../assets/loading.gif"/>
+                    <a routerLink="/" class="btn btn-link">Cancel</a>
+                </div>
+                <ng-template #delete let-c="close" let-d="dismiss">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">Do you want to proceed?</h4>
+                            <button type="button" class="btn btn-outline-secondary" (click)="c('closed')"><span
+                                    aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div *ngIf="error" class="alert alert-danger" style="text-align: center">
+                                <b> DELETE FAILED </b>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-success" id="modal-btn-si"
+                                    (click)="c('approved'); deleteProduct()">Yes
+                            </button>
+                            <button type="button" ngbAutoFocus class="btn btn-outline-danger" id="modal-btn-no"
+                                    (click)="c('cancelled')">No
+                            </button>
+                        </div>
+                    </div>
+                </ng-template>
+                <button class="btn btn-danger" style="width: 125px" (click)="open(delete)">Delete</button>
+                <div style="margin: 5px" *ngIf="error" class="alert alert-danger">{{error}}</div>
+            </form>
+        </div>
+    </div>
+</div>

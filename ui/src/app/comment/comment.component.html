@@ -1,0 +1,100 @@
+<ng-template #edit let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Edit your review</h4>
+    </div>
+    <form class="modal-content" [formGroup]="editForm">
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" formControlName="title" class="form-control" [ngClass]="{ 'is-invalid': submitted && editForm.controls.title.errors }" />
+                <div *ngIf="submitted &&  editForm.controls.title.errors" class="invalid-feedback">
+                    <div *ngIf=" editForm.controls.title.errors">* Title is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Comment</label>
+                <textarea type="text" rows="4" cols="50" formControlName="text" class="form-control" [ngClass]="{ 'is-invalid': submitted &&  editForm.controls.text.errors }"></textarea>
+                <div *ngIf="submitted &&  editForm.controls.text.errors" class="invalid-feedback">
+                    <div *ngIf=" editForm.controls.text.errors">* Comment is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Rate</label><br>
+                <ngb-rating formControlName="rate"  max="5" style="outline: none" [starTemplate]="rate">
+                </ngb-rating>
+            </div>
+            <div *ngIf="error" class="alert alert-danger" style="text-align: center">
+                <b> EDIT FAILED </b>
+            </div>
+            <div *ngIf="success" class="alert alert-success">Successfully edited!</div>
+        </div>
+        <div class="modal-footer">
+            <img *ngIf="loading" class="pl-2" src="../../assets/loading.gif"/>
+            <button type="button" class="btn btn-outline-success" (click)="onEdit()">Save</button>
+            <button type="button" class="btn btn-outline-danger" (click)="c('cancelled')">Cancel</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #rate let-fill="fill" let-index="index">
+    <span class="star" [class.filled]="fill === 100">&#9733;</span>
+</ng-template>
+
+<ng-template #delete let-c="close" let-d="dismiss">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Do you want to proceed?</h4>
+                    <button type="button" class="btn btn-outline-secondary" (click)="c('closed')"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div *ngIf="error" class="alert alert-danger" style="text-align: center">
+                        <b> An error occurred while deleting your feedback </b>
+                    </div>
+                    <div *ngIf="success" class="alert alert-success">Successfully deleted!</div>
+                </div>
+                <div class="modal-footer">
+                    <img *ngIf="loading" class="pl-2" src="../../assets/loading.gif"/>
+                    <button type="button" class="btn btn-outline-success" id="modal-btn-si" (click)="onDelete()">Yes</button>
+                    <button type="button" ngbAutoFocus class="btn btn-outline-danger" id="modal-btn-no" (click)="c('cancelled')">No</button>
+                </div>
+            </div>
+</ng-template>
+
+<div *ngIf="comment && owner">
+    <div class="scone" style="width: 1000px;">
+        <div>
+            <div class="scone__icing" style="max-width: 150px">
+                <div class="scone__media">
+                    <img *ngIf="owner.gender === 'M'" src="../../assets/man.jpg" alt="" class="img-thumbnail">
+                    <img *ngIf="owner.gender === 'F'" src="../../assets/woman.jpg" alt="" class="img-thumbnail">
+                    <img *ngIf="owner.gender === 'U'" src="../../assets/unspecified.png" alt="" class="img-thumbnail">
+                </div>
+                <div class="scone__jam">
+                    <div class="scone__name">{{ownerName}}</div>
+                </div>
+            </div>
+            <div class="rate">
+                <hr>
+                <span> {{comment.rating | number: '1.1-2'}} <ngb-rating style="outline: none" [(rate)]="comment.rating"  [readonly]="true" max="5">
+        <ng-template let-fill="fill" let-index="index">
+          <span class="star" [class.filled]="fill === 100">&#9733;</span>
+        </ng-template>
+      </ngb-rating>
+        </span>
+            </div>
+        </div>
+        <div class="scone__cream" style="padding-left: 20px">
+            <h3 class="scone__title">{{comment.title}}</h3>
+            <div class="scone__body">{{comment.text}}</div>
+        </div>
+        <button *ngIf="currentUser && currentUser.userId === comment.userId" type="button" style="height: 50px" (click)="open(edit)" class="btn btn-outline-success" data-toggle="modal">
+            Edit
+        </button>
+        <button *ngIf="currentUser && currentUser.userId === comment.userId" type="button" style="height: 50px; margin-left: 5px" (click)="open(delete)" class="btn btn-outline-danger" data-toggle="modal">
+            Delete
+        </button>
+    </div>
+</div>
+
+
+

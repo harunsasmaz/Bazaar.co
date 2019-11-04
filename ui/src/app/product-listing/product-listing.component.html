@@ -1,0 +1,19 @@
+<div *ngIf="products">
+    <div *ngIf="products.length > 0" class="d-flex justify-content-center">
+        <div class="row" style="justify-content: center; width: 1000px">
+            <div *ngFor="let product of products">
+                <app-product-card [currentProduct]="product"></app-product-card>
+            </div>
+        </div>
+    </div>
+
+    <br *ngIf="products.length == 0">
+    <br *ngIf="products.length == 0">
+    <br *ngIf="products.length == 0">
+    <br *ngIf="products.length == 0">
+
+    <div *ngIf="products.length == 0" class="d-flex flex-row justify-content-center">
+        <h3>No product has been added to this category</h3>
+    </div>
+</div>
+

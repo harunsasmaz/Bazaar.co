@@ -1,0 +1,106 @@
+.star {
+    font-size: 2rem;
+    color: #b0c4de;
+}
+.filled {
+    color: goldenrod;
+}
+body {
+    max-width: 942px;
+    margin: 1rem auto;
+}
+
+h3 {
+    margin: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+$fonts: 'Lato', sans-serif;
+$border: #dce6eb;
+$bg-main: #fff;
+
+/*------------------------------------------
+card styles
+------------------------------------------*/
+
+.scone {
+    border: 3px;
+    background-color: rgba(249, 249, 249, 0.5);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    font-family: $fonts;
+    height: 100%;
+    padding: 2rem;
+    margin: 2px 2px 2px 2px;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+}
+
+.scone__media {
+    padding: 0.875rem 0.875rem 0 0;
+}
+
+.image {
+// same styles as comment avatars
+min-width: 2.25rem;
+    border-radius: 50%;
+}
+.scone__title {
+    font-size: 1.25rem;
+    padding-bottom: 0.5rem;
+    font-weight: bold;
+}
+.scone__body {
+    font-size: 1.0625rem;
+    line-height: 2rem;
+    color: #343434;
+}
+
+.rate {
+    font-size: 1.25rem;
+    color: #262626;
+}
+
+.fa-star {
+    color: #F5A623;
+}
+.fa-star-faded {
+    color: #F1961C;
+    opacity: 0.4;
+}
+.fa-semi-opacity:before {
+    background: linear-gradient(to right, rgba(245,166,35,1) 50%, rgba(241,231,103,1) 50%, rgba(251, 216, 158, 1) 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: initial; /* reset Font Awesome's display:inline-block */
+}
+
+.scone__name {
+    font-size: 0.9375rem;
+    font-weight: bold;
+}
+.scone__date {
+    font-size: 0.8125rem;
+    color: #7492A5;
+}
+.scone__size {
+    font-size: 1.0625rem;
+    color: #134370;
+}
+.scone__icing {
+    display: flex;
+    flex: 1;
+}
+.scone__jam {
+    padding: 0.875rem 0;
+}
+.scone__cream {
+    padding: 0.875rem;
+    flex: 2;
+}
+
+

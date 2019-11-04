@@ -1,0 +1,44 @@
+.image-upload > input {
+    visibility:hidden;
+    width:0;
+    height:0
+}
+
+.first-col{
+    width: 50%;
+    display: flex;
+    float: left;
+}
+
+.second-col{
+    width: 50%;
+    display: flex;
+    float: left;
+}
+
+.col1-price{
+    width: 50px;
+    float: left;
+}
+
+.col2-price{
+    width: 450px;
+    float: left;
+}
+
+.row-price{
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.row-image{
+    height: 90%;
+    display: flex;
+    float: bottom;
+}
+
+.row-alert{
+    height: 10%;
+    display: flex;
+    float: bottom;
+}

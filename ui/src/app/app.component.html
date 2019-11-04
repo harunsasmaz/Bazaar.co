@@ -1,0 +1,176 @@
+<!-- nav -->
+<ng-template #login let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title" style="text-align: center">Sign in</h4>
+    </div>
+    <form [formGroup]="loginForm">
+        <div class="modal-body">
+            <div *ngIf="successLogin" class="alert alert-success">Successfully logged in!</div>
+            <div class="form-group">
+                <label style="display: inline;
+   float: left;
+   text-align: left; vertical-align: bottom; margin-top: 5px; width: 75px">E-mail:</label>
+                <input style="width: 375px" type="text" formControlName="email" class="form-control"
+                       (change)="errorLogin = ''"
+                       placeholder="your_email@example.com"
+                       [ngClass]="{ 'is-invalid': submittedLogin && loginForm.controls.email.errors }"/>
+                <div *ngIf="submittedLogin && loginForm.controls.email.errors" class="invalid-feedback">
+                    <div *ngIf="loginForm.controls.email.errors.email">* Invalid E-mail</div>
+                    <div *ngIf="loginForm.controls.email.errors.required"> Email is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label style="display: inline;
+   float: left;
+   text-align: left; vertical-align: bottom; margin-top: 5px; width: 75px">Password:</label>
+                <input style="width: 375px;" type="password" formControlName="password" placeholder="******"
+                       (change)="errorLogin = ''"
+                       class="form-control"
+                       [ngClass]="{ 'is-invalid': submittedLogin && loginForm.controls.password.errors }"/>
+                <div *ngIf="submittedLogin && loginForm.controls.password.errors" class="invalid-feedback">
+                    <div *ngIf="loginForm.controls.password.errors.required">Password is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button (click)="onSubmitLogin()"
+                        [disabled]="loadingLogin || !loginForm.controls.email.value || !loginForm.controls.password.value"
+                        class="btn btn-primary">Login
+                </button>
+                <button class="btn btn-link" (click)="c('cancelled')">Cancel</button>
+                <img *ngIf="loadingLogin" class="pl-2" src="../assets/loading.gif"/>
+            </div>
+            <div *ngIf="errorLogin" class="alert alert-danger">{{errorLogin}}</div>
+            <button (click)="c('route'); open(register)" class="btn btn-link" style="padding-left: 0">Do you need an account?</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #register let-c="close">
+    <div class="modal-header">
+        <h4 class="modal-title">Sign up</h4>
+    </div>
+    <form [formGroup]="registerForm">
+        <div class="modal-body">
+            <div *ngIf="successRegister" class="alert alert-success">Your account is successfully created!</div>
+            <div class="form-group">
+                <label style="display: inline;
+   float: left;
+   text-align: left; vertical-align: bottom; margin-top: 5px; width: 83px">First Name:</label>
+                <input style="width: 360px" type="text" formControlName="name" placeholder="John" class="form-control"
+                       [ngClass]="{ 'is-invalid': submittedRegister && form.name.errors }"
+                       (change)="errorRegister = ''"/>
+                <div *ngIf="submittedRegister && form.name.errors" class="invalid-feedback">
+                    <div *ngIf="form.name.errors">* First name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label style="display: inline;
+   float: left;
+   text-align: left; vertical-align: bottom; margin-top: 5px; width: 83px">Last Name:</label>
+                <input style="width: 360px" type="text" formControlName="surname" placeholder="Doe" class="form-control"
+                       [ngClass]="{ 'is-invalid': submittedRegister && form.surname.errors }"
+                       (change)="errorRegister = ''"/>
+                <div *ngIf="submittedRegister && form.surname.errors" class="invalid-feedback">
+                    <div *ngIf="form.surname.errors">* Last name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label style="display: inline;
+   float: left;
+   text-align: left; vertical-align: bottom; margin-top: 5px; width: 83px">Gender:</label>
+                <select style="width: 360px" class="form-control" formControlName="gender">
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="U">Unspecified</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label style="display: inline;
+   float: left;
+   text-align: left; vertical-align: bottom; margin-top: 5px; width: 83px">Email:</label>
+                <input style="width: 360px" type="text" formControlName="email" placeholder="your_email@example.com"
+                       (change)="errorRegister = '' "
+                       class="form-control" [ngClass]="{ 'is-invalid': submittedRegister && form.email.errors }"/>
+
+                <div *ngIf="submittedRegister && form.email.errors" class="invalid-feedback">
+                    <div *ngIf="form.email.errors.pattern">* Invalid E-mail</div>
+                    <div *ngIf="form.email.errors.required">* E-mail is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label style="display: inline;
+   float: left;
+   text-align: left; vertical-align: bottom; margin-top: 5px; width: 83px">Password:</label>
+                <input style="width: 360px" type="password" formControlName="password" placeholder="******"
+                       class="form-control"
+                       [ngClass]="{ 'is-invalid': submittedRegister && form.password.errors }"
+                       (change)="errorRegister = ''"/>
+                <div *ngIf="submittedRegister && form.password.errors" class="invalid-feedback">
+                    <div *ngIf="form.password.errors.required">* Password is required</div>
+                    <div *ngIf="form.password.errors.pattern"> * Must contain at least one lowercase, one uppercase and
+                        one digit
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label style="display: inline;
+   float: left;
+   text-align: left; vertical-align: bottom; margin-top: 5px; width: 83px">Confirm:</label>
+                <input style="width: 360px" type="password" formControlName="passwordCheck" placeholder="******"
+                       class="form-control"
+                       [ngClass]="{ 'is-invalid': submittedRegister && form.passwordCheck.value !== form.password.value}"
+                       (change)="errorRegister = ''"/>
+                <div *ngIf="submittedRegister && form.passwordCheck.value !== form.password.value"
+                     class="invalid-feedback">
+                    <div *ngIf="form.passwordCheck.value !== form.password.value">* Passwords are not matched</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button (click)="onSubmitRegister()" [disabled]="submitDisableStatus()" class="btn btn-primary">
+                    Register
+                </button>
+                <button class="btn btn-link" (click)="c('cancelled')">Cancel</button>
+                <img *ngIf="loadingRegister" class="pl-3" src="../assets/loading.gif"/>
+            </div>
+            <div *ngIf="errorRegister" class="alert alert-danger">{{errorRegister}}</div>
+            <button (click)="c('route'); open(login)" class="btn btn-link" style="padding-left: 0">Already have an account?</button>
+        </div>
+    </form>
+</ng-template>
+
+<nav style="height: 8vh" class="navbar navbar-light" *ngIf="!currentUser">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a routerLink="/" class="navbar-left"><img src="../assets/logo.png" width="40px"
+                                                       style="vertical-align: bottom"></a>
+            <a class="navbar-brand nav-link disabled" routerLink="/"> Pazar.co </a>
+        </div>
+        <span class="nav navbar-nav navbar-expand-sm">
+      <button class="btn btn-link" (click)="open(login)"> Sign in </button>
+      <button class="btn btn-link" (click)="open(register)"> Sign up</button>
+    </span>
+    </div>
+</nav>
+
+<nav style="height: 8vh" class="navbar navbar-light" *ngIf="currentUser">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a routerLink="/" class="navbar-left"><img src="../assets/logo.png" width="40px"
+                                                       style="vertical-align: bottom"></a>
+            <a class="navbar-brand nav-link disabled" routerLink="/"> Pazar.co </a>
+        </div>
+        <span class="nav navbar-nav navbar-expand-sm">
+      <button class="btn btn-link" routerLink="/profile"> {{currentUser.name}} {{currentUser.surname}} </button>
+      <button class="btn btn-link" routerLink="/user/products">My Products</button>
+      <button class="btn btn-link" (click)="logout()"> Log out </button>
+    </span>
+    </div>
+</nav>
+
+<!-- main app container -->
+<div style="height: 92vh">
+    <router-outlet></router-outlet>
+</div>
+
+
+

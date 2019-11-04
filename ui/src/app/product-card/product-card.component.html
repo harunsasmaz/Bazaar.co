@@ -1,0 +1,33 @@
+<ng-template #tip><i>Click to enter product page</i></ng-template>
+
+<ng-template #rate let-fill="fill" let-index="index" style="margin-left: 10px">
+                    <span class="star" [class.filled]="fill === 100">
+                         <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+                    </span>
+</ng-template>
+
+<div style="margin-bottom: 20px;"  *ngIf="owner" class="col-xs-6 col-md-4">
+    <div class="card card-block stretched-link" routerLink="/product/{{currentProduct.productId}}"
+         [ngbTooltip]="tip">
+        <img [src]="currentProduct.image" alt="Product image" class="card-img">
+        <div *ngIf="currentProduct.stock" class="card__date" style="left: 20px;">
+            <span class="card__date__day">On</span><br>
+            <span class="card__date__day">Sale</span>
+        </div>
+        <div *ngIf="authService.currentUserValue">
+            <div *ngIf="currentProduct.userId === authService.currentUserValue.userId" class="card__date"
+                 style="line-height: 20px; padding-top: 10px; background-color: brown">
+                <span class="card__date__day">Yours</span>
+            </div>
+        </div>
+        <h5 style="color: rgba(234,84,32,0.86); font-weight: bold"
+            class="card-title mt-3 mb-3">{{capitalize(currentProduct.name)}} </h5>
+        <p style="font-weight: bolder" class="card-text"> {{currentProduct.price | currency:'EUR': 'symbol'}}</p>
+        <i style="color: #ea5420; font-size: 13px"> {{owner.name | uppercase}} {{owner.surname | uppercase}}</i>
+        <ngb-rating style="margin-right: 5px;" [(rate)]="rating" max="5" [readonly]="true" [starTemplate]="rate"></ngb-rating>
+    </div>
+</div>
+
+
+
+

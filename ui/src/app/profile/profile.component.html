@@ -1,0 +1,79 @@
+<div class="jumbotron">
+  <div class="container">
+<div class="row align-self-center" style="width: 100%">
+  <div class="col-sm-6 offset-sm-3 align-self-center">
+
+<h1>My Profile</h1>
+<button (click)="userInfoButton()" class="btn btn-primary" style="margin-right: 5px"
+        [ngClass]="{'btn-success': status == 'userInfo'}">User Info</button>
+<button (click)="changePasswordButton()" class="btn btn-primary"
+        [ngClass]="{'btn-success': status == 'changePassword'}">Change Password</button>
+<hr>
+<div *ngIf="status === 'userInfo'">
+  <h2>User Info</h2>
+  <form [formGroup]="infoForm" (ngSubmit)="onSubmitInfo()">
+    <div class="form-group">
+      <input type="text" formControlName="name" placeholder="Name" (ngModelChange)="updateForm()" class="form-control" [ngClass]="{ 'is-invalid': info_submitted && formInfo.name.errors }" />
+      <div *ngIf="info_submitted && formInfo.name.errors" class="invalid-feedback">
+        <div *ngIf="formInfo.name.errors">* First name is required</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="text" formControlName="surname" placeholder="Surname" (ngModelChange)="updateForm()" class="form-control" [ngClass]="{ 'is-invalid': info_submitted && formInfo.surname.errors }" />
+      <div *ngIf="info_submitted && formInfo.surname.errors" class="invalid-feedback">
+        <div *ngIf="formInfo.surname.errors">* Last name is required</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <select class="form-control" formControlName="gender" (ngModelChange)="updateForm()">
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+        <option value="U">Unspecified</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <button [disabled]="userInfoDisableStatus()" class="btn btn-primary">Save</button>
+      <img *ngIf="info_loading" class="pl-3" src="../../assets/loading.gif" />
+    </div>
+    <div *ngIf="error_of_info" class="alert alert-danger">{{error_of_info}}</div>
+    <div *ngIf="successOfInfo" class="alert alert-success">Your profile successfully updated!</div>
+  </form>
+</div>
+
+<div *ngIf="status === 'changePassword'">
+  <h2>Change Password</h2>
+  <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
+    <div class="form-group">
+      <input type="password" formControlName="oldPsw" placeholder="Old Password" class="form-control" [ngClass]="{ 'is-invalid': psw_submitted && formPassword.oldPsw.errors }" />
+      <div *ngIf="psw_submitted && formPassword.oldPsw.errors" class="invalid-feedback">
+        <div *ngIf="formPassword.oldPsw.errors.required">* Password is required</div>
+        <div *ngIf="formPassword.oldPsw.errors.pattern"> * Must contain at least one lowercase, one uppercase and one digit</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="password" formControlName="newPsw" placeholder="New Password" class="form-control" [ngClass]="{ 'is-invalid': psw_submitted && formPassword.newPsw.errors }" />
+      <div *ngIf="psw_submitted && formPassword.newPsw.errors" class="invalid-feedback">
+        <div *ngIf="formPassword.newPsw.errors.required">* Password is required</div>
+        <div *ngIf="formPassword.newPsw.errors.pattern"> * Must contain at least one lowercase, one uppercase and one digit</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="password" formControlName="confirmPsw" placeholder="Confirm Password" class="form-control" [ngClass]="{ 'is-invalid': psw_submitted && formPassword.confirmPsw.errors }" />
+      <div *ngIf="psw_submitted && formPassword.confirmPsw.errors" class="invalid-feedback">
+        <div *ngIf="formPassword.confirmPsw.value !== formPassword.newPsw.value">* Password is required</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button [disabled]="pswSubmitDisableStatus()" class="btn btn-primary">Save</button>
+      <img *ngIf="psw_loading" class="pl-3" src="../../assets/loading.gif" />
+    </div>
+  </form>
+  <div *ngIf="psw_submitted && (formPassword.newPsw.value !== formPassword.confirmPsw.value)" class="alert alert-danger">Passwords are not matched</div>
+  <div *ngIf="error_of_psw" class="alert alert-danger">{{error_of_psw}}</div>
+  <div *ngIf="successOfPsw" class="alert alert-success">Your password successfully updated!</div>
+</div>
+  </div>
+</div>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+
+<div class="jumbotron">
+    <div *ngIf="error" class="alert alert-danger" style="text-align: center">An error occurred while displaying your products</div>
+    <app-product-listing  *ngIf="products" [products]="products"></app-product-listing>
+</div>

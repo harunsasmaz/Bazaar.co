@@ -1,0 +1,99 @@
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Give your feedback</h4>
+    </div>
+    <form class="modal-content" [formGroup]="addForm" >
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" formControlName="title" class="form-control" [ngClass]="{ 'is-invalid': submitted && addForm.controls.title.errors }" />
+                <div *ngIf="submitted &&  addForm.controls.title.errors" class="invalid-feedback">
+                    <div *ngIf=" addForm.controls.title.errors">* Title is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Comment</label>
+                <textarea type="text" rows="4" cols="50" formControlName="text" class="form-control" [ngClass]="{ 'is-invalid': submitted &&  addForm.controls.text.errors }"></textarea>
+                <div *ngIf="submitted &&  addForm.controls.text.errors" class="invalid-feedback">
+                    <div *ngIf=" addForm.controls.text.errors">* Comment is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Rate</label><br>
+                <ngb-rating formControlName="rate" max="5" [starTemplate]="rate"></ngb-rating>
+            </div>
+            <div *ngIf="error" class="alert alert-danger" style="text-align: center">
+                <b> ADD FAILED </b>
+            </div>
+            <div *ngIf="success" class="alert alert-success">Successfully saved!</div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-success" data-toggle="modal" (click)="onSubmit()">Save</button>
+            <button type="button" class="btn btn-outline-danger" data-toggle="modal" (click)="c('cancelled')">Cancel</button>
+
+        </div>
+        </form>
+</ng-template>
+
+<ng-template #rate let-fill="fill" let-index="index">
+    <span class="star" [class.filled]="fill === 100">&#9733;</span>
+</ng-template>
+
+<div class="jumbotron">
+    <div class="container">
+        <div *ngIf="currentProduct && productOwner">
+            <div class="d-flex p-3 flex-row justify-content-center">
+                <div class="col-md-5 col-sm-5 justify-content-center">
+                    <img style="margin: auto; display: block; max-height: 350px; max-width: 350px; vertical-align: center" [src]="currentProduct.image" alt="default image">
+                    <div *ngIf="currentProduct.comments.length > 0" style="text-align: center">
+                        <b style="font-size: 1.15rem;">{{averageRate | number: '1.1-2'}}</b> &nbsp;
+                        <ngb-rating [(rate)]="averageRate"  [readonly]="true" max="5" style="outline: none; vertical-align: center">
+                            <ng-template let-fill="fill" let-index="index" style="margin-left: 10px">
+                    <span class="averageStar" [class.filled]="fill === 100">
+                         <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+                    </span>
+                            </ng-template>
+                        </ngb-rating>
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-5" style="background-color: #ffffff47; height: 400px">
+                    <h3 style="font-weight: bold"> {{currentProduct.name | uppercase}} </h3>
+                    <h5 style="font-weight: bold; font-style: italic"> {{currentProduct.price | currency:'EUR':'symbol-narrow':'1.2-2'}}</h5>
+                    <hr>
+                    <textarea  readonly style="outline: none; width: 400px; height: 200px; border: none; background: transparent; resize: none">{{currentProduct.description}}</textarea>
+                    <i style="font-weight: bold">{{productOwner.name | uppercase}} {{productOwner.surname | uppercase}}</i>
+                    <hr>
+                    <i *ngIf="currentProduct.stock">* available in stocks</i>
+                    <i *ngIf="!currentProduct.stock">* not available in stocks</i>
+                </div>
+                <div class="col-md-2 col-sm-2">
+                    <div *ngIf="authService.currentUserValue">
+                        <button style="height: 50px" *ngIf="currentProduct.userId === authService.currentUserValue.userId"
+                                type="button" class="btn btn-outline-primary" routerLink="/product/edit/{{currentProduct.productId}}">Edit Your Product</button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div style="height: 50px; margin-left: 10px">
+                <b style="font-size: 2rem"> Comments </b>
+                <button  *ngIf="authService.currentUserValue" type="button" style="height: 50px; margin-right: 30px" (click)="open(content)" class="btn btn-outline-primary pull-right" data-toggle="modal">
+                    give your feedback
+                </button>
+            </div>
+            <hr>
+            <div style="text-align: left;">
+                <div *ngIf="currentProduct.comments.length > 0" >
+                    <div class="d-inline-flex" *ngFor="let comment of currentProduct.comments" style="padding-left: 20px; margin-bottom: 20px">
+                        <app-comment [comment]="comment" [currentUser]="authService.currentUserValue"></app-comment>
+                    </div>
+                </div>
+                <div *ngIf="currentProduct.comments.length === 0">
+                    <div style="background-color: rgba(255,255,255,0.43); height: 50px">
+                        <h4 style="text-align: center; vertical-align: center; padding: 10px">There is no review yet </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

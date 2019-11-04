@@ -1,0 +1,83 @@
+<ng-template #tip><i style="position: relative">Click to enter product page</i></ng-template>
+
+<ng-sidebar-container style="height: 92vh">
+    <ng-sidebar
+            [(opened)]="_opened"
+            [mode]="'over'"
+            [position]="'left'"
+            [dock]="false"
+            [closeOnClickOutside]="true"
+            [showBackdrop]="true"
+            [animate]="true"
+            [sidebarClass]="'demo-sidebar'"
+            [ariaLabel]="'My sidebar'"
+            [autoFocus]="false">
+        <div style="background-color: transparent;">
+            <div class="category-buttons col" style="padding-right: 10px; padding-left: 10px; padding-top: 100px; flex-wrap: wrap">
+            <button [value]="categoryIds[0]" style="width: 150px; font-size: 15px" class="demo-control row" ngbTooltip="{{categoryDescriptions[0]}}" [ngClass]="{ 'selected': selectedCategoryId === categoryIds[0] }" (click)="onClick($event)">{{categoryNames[0]}}</button>
+            <button [value]="categoryIds[1]" style="width: 150px; font-size: 15px" class="demo-control row" ngbTooltip="{{categoryDescriptions[1]}}" [ngClass]="{ 'selected': selectedCategoryId === categoryIds[1] }" (click)="onClick($event)">{{categoryNames[1]}}</button>
+            <button [value]="categoryIds[2]" style="width: 150px; font-size: 15px" class="demo-control row" ngbTooltip="{{categoryDescriptions[2]}}" [ngClass]="{ 'selected': selectedCategoryId === categoryIds[2] }" (click)="onClick($event)">{{categoryNames[2]}}</button>
+            <button [value]="categoryIds[3]" style="width: 150px; font-size: 15px" class="demo-control row" ngbTooltip="{{categoryDescriptions[3]}}" [ngClass]="{ 'selected': selectedCategoryId === categoryIds[3] }" (click)="onClick($event)">{{categoryNames[3]}}</button>
+            <button [value]="categoryIds[4]" style="width: 150px; font-size: 15px" class="demo-control row" ngbTooltip="{{categoryDescriptions[4]}}" [ngClass]="{ 'selected': selectedCategoryId === categoryIds[4] }" (click)="onClick($event)">{{categoryNames[4]}}</button>
+            </div>
+        </div>
+    </ng-sidebar>
+    <div ng-sidebar-content>
+        <header class="demo-header" style="width: 100%">
+            <button (click)="toggle(true)" class="demo-header__toggle">Toggle sidebar</button>
+            <span>Categories</span>
+            <div class="row justify-content-center" style="margin-left: 6%">
+                <button class="btn btn-primary"
+                        [ngClass]="{'btn-success': order == 'descending' && sortField == 'price'}"
+                        style="margin: 5px; height: 40px; width: 105px; border-radius: 25px"
+                        (click)="sortField = 'price'; order = 'descending'; sort()"> Highest price </button>
+                <button class="btn btn-primary"
+                        [ngClass]="{'btn-success': order == 'ascending' && sortField == 'price'}"
+                        style="margin: 5px; height: 40px; width: 100px; border-radius: 25px"
+                        (click)="sortField = 'price'; order = 'ascending'; sort()"> Lowest price </button>
+                <button class="btn btn-primary"
+                        [ngClass]="{'btn-success': order == 'ascending' && sortField == 'name'}"
+                        style="margin: 5px; height: 40px; width: 35px; border-radius: 25px"
+                        (click)="sortField = 'name'; order = 'ascending'; sort()">A-Z</button>
+                <button class="btn btn-primary"
+                        [ngClass]="{'btn-success': order == 'descending' && sortField == 'name'}"
+                        style="margin: 5px; height: 40px; width: 35px; border-radius: 25px"
+                        (click)="sortField = 'name'; order = 'descending'; sort()">Z-A</button>
+                <input [formControl]="minControl" (change)="didSubmit = false" type="number" min="0" oninput="validity.valid||(value='');"
+                        placeholder=" min price"
+                        style="border-radius: 25px;
+                               border: 2px solid #e95420;
+                               padding: 20px;
+                               width: 200px;
+                               height: 15px;
+                               margin: 4px;
+                               outline: none">
+                <input [formControl]="maxControl" (change)="didSubmit = false" type="number" min="0" oninput="validity.valid||(value='');"
+                       placeholder=" max price"
+                       style="border-radius: 25px;
+                              border: 2px solid #e95420;
+                              padding: 20px;
+                              width: 200px;
+                              height: 15px;
+                              margin: 4px; outline: none;">
+                <button [disabled]="minControl.invalid && maxControl.invalid"
+                        class="btn btn-primary"
+                        style="margin: 5px; height: 40px; width: 50px; border-radius: 25px" (click)="onFilter()">Filter</button>
+                <button *ngIf="currentUser" routerLink="/user/addProduct" class="fancy-button pop-onhover bg-gradient1"><span style="padding: 0; height: 40px; text-align: center">Create a product!</span></button>
+            </div>
+        </header>
+        <section class="demo-contents">
+            <app-product-listing #list [products]="products"></app-product-listing>
+            <div *ngIf="products.length > 0" class="row justify-content-center" style="position: page;
+                                            bottom: 0px;
+                                            left: 0px;
+                                            right: 0px;
+                                            margin: 10px">
+                <div class="pagination" *ngFor="let page of pages">
+                    <a accesskey="page" (click)="onChangePage($event)" [ngClass]="{'active': currentPageNumber == page}">{{page}}</a>
+                </div>
+            </div>
+        </section>
+    </div>
+</ng-sidebar-container>
+
