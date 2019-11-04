@@ -1,0 +1,28 @@
+{
+    "data" : [
+        {
+            "categoryId":"",
+            "name":"Automotive",
+            "description":"Cars, vans, motorcycles ..."
+        },
+        {
+            "categoryId":"",
+            "name":"Computer",
+            "description":"Desktop, notebook, gaming computer..."
+        },
+        {
+            "categoryId":"",
+            "name":"Fashion",
+            "description":"Trousers, shoes, shirts, accessories..."
+        },
+        {
+            "categoryId":"",
+            "name":"Smart Phone",
+            "description":"Huawei, Xiaomi, Oppo..."
+        },{
+            "categoryId":"",
+            "name":"Sport",
+            "description":"Outdoor clothing, camping, fitness..."
+        }
+    ]
+}
