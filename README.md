@@ -4,6 +4,10 @@ A commercial website for intership project
 
 ## Tech Stack
 
+### Language
+
+* Typescript
+
 ### Front-end:
 
 * Angular 7
