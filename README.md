@@ -1,9 +1,10 @@
-# Pazar.co
-## Internship project
+# Bazaar.co
 
-## Author: Harun Sasmaz
+A commercial website for intership project
 
-Front-end:
+## Tech Stack
+
+### Front-end:
 
 * Angular 7
 
@@ -13,26 +14,28 @@ Front-end:
 
 * Bootstrap 4
 
-Back-end:
+### Back-end:
 
 * Node.js
 
-* ExpressJS
+* Express.js
+
+### Authentication and Database
 
 * MongoDB
 
-> Token-based authentication and bcrypt password encryption are used.
+* Token-based authentication and bcrypt password encryption are used.
 
-Supported Functionalities:
+### Supported Functionalities:
 
 * Sign-in/Sign-up
 
 * Update user profile/password
 
-* Add - Remove - Update your product
+* Add - remove - update your product
 
 * Comment and rate products in the bazaar
 
-* Sort - Filter products
+* Sort - filter products
 
 * Update or delete comments and ratings of yours
